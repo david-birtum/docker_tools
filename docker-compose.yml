@@ -1,0 +1,30 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer_global
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - "9443:9443"
+    networks:
+      - odoo_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_global
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    networks:
+      - odoo_network
+
+networks:
+  odoo_network:
+    external: true
+
+volumes:
+  portainer_data:
